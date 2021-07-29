@@ -1,0 +1,76 @@
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: blue;
+  padding: 15px;
+  margin-bottom: 10px;
+  }
+  .nav-heading {
+    color: white;
+    font-size: 18px;
+    font-family: 'Roboto';
+    font-weight: 500;
+  }
+  .board-input-container {
+    margin: 25px;
+  }
+  .board-input {
+    height: 15px;
+    width:100px;
+    border: none;
+    outline: none;
+    background-color: skyblue;
+    padding: 10px;
+    font-size: 12px;
+    margin-right: 10px;
+    margin-left:10px;
+    margin-bottom: 10px;
+  }
+  @media screen and (min-width:768px){
+    .board-input {
+      width:150px;
+      font-size:16px;
+    }
+  }
+
+  .boards-container {
+    display: flex;
+    padding-bottom:20px;
+    flex-wrap:wrap;
+  }
+
+  .create-board-btn {
+    border: none;
+    background-color: orange;
+    height: 30px;
+    width: 100px;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: 'Roboto';
+    font-weight: 500;
+    margin-right: 10px;
+    margin-left:10px;
+    margin-bottom: 10px;
+  }
+
+  .all-btns{
+    border: none;
+    height: 30px;
+    width: 100px;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: 'Roboto';
+    font-weight: 500;
+    margin-left: 10px;
+  }
+  .save-board-btn {
+    background-color: green;
+  }
+  .clear-board-btn{
+    background-color:red;
+   
+  }
+  .logout-btn{
+    background-color: red;
+  }

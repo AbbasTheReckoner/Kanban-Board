@@ -1,0 +1,54 @@
+  .task {
+    font-family: 'Roboto';
+    font-weight: 500;
+    font-size: 16px;
+  }
+  .task-del-icon {
+    color:red;
+    min-width: 15px;
+    margin-bottom: 2px;
+    margin-left: 2px;
+    font-size:15px;
+    cursor: pointer;
+  }
+  .update-task-icon{
+    color:green;
+    font-size:13px;
+    cursor: pointer;
+  }
+  .icons-container{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .created-date{
+    font-size:10px;
+    font-weight:500;
+    font-family:"Roboto";
+    color:grey;
+    font-style: "italic";
+    padding-top: 25px;
+    margin: 0px;
+  }
+  .task-and-time{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100px;
+    font-family:"Roboto";
+  }
+
+#onhoverEdit{
+    visibility: hidden;
+    font-size: 8px;
+    background-color: #ffffff;
+    box-shadow: 5px 5px 2px grey;
+    padding:2px;
+    font-family: "Roboto";
+    font-weight: 500;
+}
+#editIcon:hover ~ #onhoverEdit{
+    visibility: visible;
+}
