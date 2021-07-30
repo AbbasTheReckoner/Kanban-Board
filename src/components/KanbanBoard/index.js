@@ -1,4 +1,4 @@
-import React,{Component} from 'react';
+import {Component} from 'react';
 import styled from 'styled-components';
 import { MdCancel } from  "react-icons/md";
 import { Droppable } from 'react-beautiful-dnd';

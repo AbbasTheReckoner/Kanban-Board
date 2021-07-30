@@ -1,4 +1,4 @@
-import React, { Component }  from 'react';
+import  { Component }  from 'react';
 import {Redirect} from 'react-router-dom'
 import { DragDropContext } from 'react-beautiful-dnd';
 import KanbanBoard from '../KanbanBoard'
@@ -288,11 +288,10 @@ getBoardDetailsFromLocalStorage=()=>{
             <DragDropContext onDragEnd={this.onDragEnd}>
                 <div className="boards-container">
                 {columnOrder.map(columnId => {
-                    const column = columns[columnId];
+                    const column = columns[columnId]
                     const tasks = column.taskIds.map(
-                    taskId => this.state.tasks[taskId],
-                    );
-                    return <KanbanBoard 
+                    taskId => this.state.tasks[taskId])
+                    return (<KanbanBoard 
                     addTask={this.onAddTask}
                     deleteTask={this.onDeleteTask}
                     deleteBoard={this.onDeleteBoard}
@@ -300,7 +299,7 @@ getBoardDetailsFromLocalStorage=()=>{
                     taskUpdate= {this.onUpdateTask}
                     key={column.id}
                     column={column} 
-                    tasks={tasks} />;
+                    tasks={tasks} />)
                 })}
                 </div>
             </DragDropContext> 

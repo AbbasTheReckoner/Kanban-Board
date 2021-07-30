@@ -1,5 +1,4 @@
-import { Fragment } from 'react'
-import React,{Component} from 'react'
+import {Component} from 'react'
 import { Redirect } from 'react-router-dom'
 import './index.css'
 
@@ -63,7 +62,7 @@ class LoginForm extends Component {
   renderPasswordField = () => {
     const {password,isPasswordEmpty} = this.state
     return (
-      <Fragment>
+      <>
         <label className="input-label" htmlFor="password">
           PASSWORD
         </label>
@@ -76,14 +75,14 @@ class LoginForm extends Component {
           placeholder="Password"
         />
         {isPasswordEmpty && <p className="required-msg">*Required</p>}
-      </Fragment>
+      </>
     )
   }
 
   renderEmailField = () => {
     const {email,isEmailEmpty} = this.state
     return (
-      <Fragment>
+      <>
         <label className="input-label" htmlFor="email">
           EMAIL
         </label>
@@ -96,7 +95,7 @@ class LoginForm extends Component {
           placeholder="Email"
         />
         {isEmailEmpty && <p className="required-msg">*Required</p>}
-      </Fragment>
+      </>
     )
   }
 
