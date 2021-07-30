@@ -1,6 +1,16 @@
-# Getting Started with Create React App
+# Getting Started with Kanban Board App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+
+## Installation Guide
+
+In the project directory run:
+
+### `npm install`
+
+This install all the dependencies required for the project
+   
 
 ## Available Scripts
 
@@ -39,32 +49,38 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+
+### `npm run format`
+
+This command formats all files supported by Prettier in the current directory and its subdirectories.
+
+It’s recommended to always make sure that prettier --write . only formats what you want in your project. 
+Use a .prettierignore file to ignore things that should not be formatted.
+
+
+## Project structure
+
+User will be able to see a login page initially for authentication, when the valid credentials are used to login then it will route to home page where we can see create board input field and create board button,we can also see other buttons like save, clear all.When we enter board name and click on create board button we can see a board will be created with respective board name, delete icon which delete the board and also Add task input field, Add Task button through which we can add our tasks and within the task card we can see update and delete icon through which we can update and delete the tasks.
+
+## Project Details
+
+Kanban Boards are great solution to keep tasks organized, The user is able to add new tasks, create new stages and drag and drop tasks to easily keep oversight over the project.Here we can perform all the operations like create,update,delete by using respective icons and buttons
+ 
+
+## Contributors
+
+Shaik Abbas
+
+
+## Reviewers:
+
+GuruRaj Dharani
+
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
