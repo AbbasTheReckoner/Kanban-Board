@@ -1,6 +1,6 @@
 import {Component} from 'react';
 import styled from 'styled-components';
-import { MdCancel } from  "react-icons/md";
+import { IoTrashBin } from "react-icons/io5";
 import { Droppable } from 'react-beautiful-dnd';
 import { BsPencilSquare } from "react-icons/bs";
 import { IoCheckmarkDoneCircleOutline } from "react-icons/io5";
@@ -122,7 +122,7 @@ class KanbanBoard extends Component {
             type="button"
             onClick={this.deletingBoard}
           >
-            <MdCancel />
+            <IoTrashBin/>
           </button>
         </div>
 
