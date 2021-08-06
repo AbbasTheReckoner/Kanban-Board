@@ -2,78 +2,106 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: blue;
-  padding: 15px;
+  background-color: #ffffff;
   margin-bottom: 10px;
-  }
-  .nav-heading {
-    color: white;
-    font-size: 18px;
-    font-family: 'Roboto';
-    font-weight: 500;
-  }
+  padding: 10px 30px;
+}
+.nav-logo {
+  width: 120px;
+}
+.kanban-boards-heading {
+  font-style: italic;
+  font-size: 25px;
+  color: #ffffff;
+  text-align: center;
+  margin: 0;
+  margin-bottom: 30px;
+}
+.board-input-container {
+  background-color: #000000;
+  min-height: 100vh;
+  background-size: cover;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.input-and-btns-container {
+  text-align: center;
+  width: 100%;
+}
+@media screen and (min-width: 768px) {
   .board-input-container {
-    margin: 25px;
+    background-color: #000000;
   }
+  .kanban-boards-heading {
+    font-size: 40px;
+  }
+}
+.board-input {
+  height: 15px;
+  width: 100px;
+  border: 1px solid skyblue;
+  outline: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 12px;
+  margin-right: 10px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.boards-container {
+  display: flex;
+  padding-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+@media screen and (min-width: 768px) {
   .board-input {
-    height: 15px;
-    width:100px;
-    border: none;
-    outline: none;
-    background-color: skyblue;
-    padding: 10px;
-    font-size: 12px;
-    margin-right: 10px;
-    margin-left:10px;
-    margin-bottom: 10px;
+    width: 220px;
+    font-size: 16px;
+    padding: 15px;
   }
-  @media screen and (min-width:768px){
-    .board-input {
-      width:220px;
-      font-size:16px;
-      padding:15px;
-    }
-  }
-
   .boards-container {
-    display: flex;
-    padding-bottom:20px;
-    flex-wrap:wrap;
+    margin-left: 30px;
+    margin-top: 20px;
   }
+}
 
-  .create-board-btn {
-    border: none;
-    background-color: orange;
-    height: 30px;
-    width: 100px;
-    cursor: pointer;
-    color: #ffffff;
-    font-family: 'Roboto';
-    font-weight: 500;
-    margin-right: 10px;
-    margin-left:10px;
-    border-radius: 6px;;
-    margin-bottom: 10px;
-  }
+.create-board-btn {
+  border: 1px solid rgb(231, 161, 31);
+  height: 30px;
+  width: 100px;
+  cursor: pointer;
+  color: orange;
+  font-family: 'Roboto';
+  font-weight: bold;
+  margin-right: 10px;
+  margin-left: 10px;
+  border-radius: 6px;
+  margin-bottom: 10px;
+  background-color: transparent;
+}
 
-  .all-btns{
-    border: none;
-    height: 30px;
-    width: 100px;
-    cursor: pointer;
-    color: #ffffff;
-    font-family: 'Roboto';
-    font-weight: 500;
-    border-radius: 6px;
-    margin-left: 10px;
-  }
-  .save-board-btn {
-    background-color: green;
-  }
-  .clear-board-btn{
-    background-color:red;
-   
-  }
-  .logout-btn{
-    background-color: red;
-  }
+.all-btns {
+  height: 30px;
+  width: 100px;
+  cursor: pointer;
+  font-family: 'Roboto';
+  font-weight: bold;
+  border-radius: 6px;
+  margin-left: 10px;
+  background-color: transparent;
+}
+.save-board-btn {
+  border: 1px solid rgb(123, 212, 123);
+  color: green;
+}
+.clear-board-btn {
+  border: 1px solid rgb(216, 88, 71);
+  color: red;
+}
+.logout-btn {
+  border: 1px solid rgb(255, 36, 7);
+  color: red;
+}

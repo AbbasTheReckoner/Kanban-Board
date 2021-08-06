@@ -1,99 +1,101 @@
 .board-container {
-    padding: 20px;
-    margin:20px;
-    border: 1px solid lightgrey;
-    background-color:#c7e7eb;
-    border-radius: 2px;
-    width: 230px;
-    display: flex;
-    flex-direction: column;
-  }
-  .board-name-and-delete-icon-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 220px;
-  }
-  .board-name {
-    font-family: 'Roboto';
-    font-weight: 600;
-    font-size:18px;
-    padding:5px;
-  }
-  .task-input-and-btn-container {
-    display: flex;
-    flex-direction: column;
-    padding-top: 15px;
-  }
-  .task-input-field {
-    height: 20px;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: none;
-    outline: 1px solid #a1c6d1;
-  }
-  .add-task-btn {
-    background-color: #00b3ff;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    height: 32px;
-    color: #ffffff;
-    font-family: 'Roboto';
-    font-weight: 500;
-  }
-
-  .del-icon {
-    background-color: transparent;
-    border: none;
-    color: #fc0303;
-    cursor: pointer;
-    font-size:15px;
-    margin-bottom:10px;
-  }
-  .board-name-and-update-icon{
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom:10px;
-  }
-  .update-icon{
-    font-size:16px;
-    color:green;
-    margin-left:5px;
-    cursor:pointer;
-  }
-  .update-task-btn{
-    background-color:green;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    height: 32px;
-    color: #ffffff;
-    font-family: 'Roboto';
-    font-weight: 500;
-  }
-
-.update-input-field{
-  width:80px;
-  border:none;
-  outline:none;
-  margin-right:5px;
-  padding:5px;
+  padding: 5px 15px 15px 15px;
+  margin: 20px;
+  border: 1px solid rgb(102, 94, 94);
+  background-color: transparent;
+  border-radius: 2px;
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 5px;
+}
+.board-name-and-delete-icon-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 220px;
+}
+.board-name {
+  font-family: 'Roboto';
+  font-weight: bold;
+  color: #ffffff;
+  font-size: 25px;
+  padding: 5px;
+}
+.task-input-and-btn-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 15px;
+}
+.task-input-field {
+  height: 20px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid grey;
+  border-radius: 5px;
+  background-color: rgb(243, 235, 235);
+}
+.add-task-btn {
+  background-color: #00b3ff;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 32px;
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-weight: 500;
 }
 
+.del-icon {
+  background-color: transparent;
+  border: none;
+  color: #fc0303;
+  cursor: pointer;
+  font-size: 15px;
+  margin-bottom: 10px;
+}
+.board-name-and-update-icon {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.update-icon {
+  font-size: 16px;
+  color: green;
+  margin-left: 5px;
+  cursor: pointer;
+}
+.update-task-btn {
+  background-color: green;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  height: 32px;
+  color: #ffffff;
+  font-family: 'Roboto';
+  font-weight: 500;
+}
 
-#editBoardName{
+.update-input-field {
+  width: 80px;
+  border: none;
+  outline: none;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+#editBoardName {
   visibility: hidden;
   font-size: 10px;
   background-color: #ffffff;
   box-shadow: 10px 10px 5px grey;
-  padding:2px;
-  font-family: "Roboto";
+  padding: 2px;
+  font-family: 'Roboto';
   font-weight: 500;
-  margin-left:2px;
+  margin-left: 2px;
 }
-#editBoardIcon:hover ~ #editBoardName{
+#editBoardIcon:hover ~ #editBoardName {
   visibility: visible;
 }

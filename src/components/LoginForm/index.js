@@ -1,66 +1,90 @@
 import {Component} from 'react'
-import { Redirect } from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import './index.css'
 
-
-
-const users =[
-    {id:"user-1",email:'shaikabbas101@gmail.com',password:'123456'},
-    {id:"user-2",email:'guru123@gmail.com',password:'123456789'},
-    {id:"user-3",email:'venkat100@gmail.com',password:'12345'}
+const users = [
+  {
+    id: 'user-1',
+    name: 'Shaik Abbas',
+    email: 'shaikabbas101@gmail.com',
+    password: '123456',
+  },
+  {
+    id: 'user-2',
+    name: 'Guru Dharani',
+    email: 'guru123@gmail.com',
+    password: '123456789',
+  },
+  {
+    id: 'user-3',
+    name: 'venkat',
+    email: 'venkat100@gmail.com',
+    password: '12345',
+  },
 ]
 
 class LoginForm extends Component {
   state = {
-    validUsersList:users,
+    validUsersList: users,
     email: '',
     password: '',
     showSubmitError: false,
     errorMsg: '*Invalid Credentials*',
-    isEmailEmpty:false,
-    isPasswordEmpty:false,
+    isEmailEmpty: false,
+    isPasswordEmpty: false,
   }
 
   onChangeEmail = event => {
-    this.setState({email: event.target.value,errorMsg:'',isEmailEmpty:false})
+    this.setState({
+      email: event.target.value,
+      errorMsg: '',
+      isEmailEmpty: false,
+    })
   }
 
   onChangePassword = event => {
-    this.setState({password: event.target.value,errorMsg:'',isPasswordEmpty:false})
+    this.setState({
+      password: event.target.value,
+      errorMsg: '',
+      isPasswordEmpty: false,
+    })
   }
 
-  onSubmitSuccess = (token,validUser) => {
+  onSubmitSuccess = (token, validUser) => {
     const {history} = this.props
-    localStorage.setItem('token',JSON.stringify(token))
-    localStorage.setItem('loggedInUserDetails',JSON.stringify(validUser))
-    alert(`Welcome ${validUser[0].id} you are successfully Logged in`)
+    localStorage.setItem('token', JSON.stringify(token))
+    localStorage.setItem('loggedInUserDetails', JSON.stringify(validUser[0].id))
+    alert(`Welcome ${validUser[0].name} you are successfully Logged in`)
     history.replace('/')
   }
 
   onSubmitFailure = () => {
-    this.setState({showSubmitError: true,errorMsg:'*Invalid Credentials*'})
+    this.setState({showSubmitError: true, errorMsg: '*Invalid Credentials*'})
   }
 
   submitForm = async event => {
     event.preventDefault()
-    const {email, password,validUsersList} = this.state
-    email===''?this.setState({isEmailEmpty:true}):this.setState({isEmailEmpty:false})
-    password===''?this.setState({isPasswordEmpty:true}):this.setState({isPasswordEmpty:false})
-    
-      const validUser = validUsersList.filter(eachUser=>(
-        eachUser.email===email && eachUser.password===password
-        ))
-        if(validUser.length !== 0 ){
-            const token = Math.random().toString(36).substring(3);
-            this.onSubmitSuccess(token,validUser)
-        }else{
-            this.onSubmitFailure()
-        }
-   
- }
+    const {email, password, validUsersList} = this.state
+    email === ''
+      ? this.setState({isEmailEmpty: true})
+      : this.setState({isEmailEmpty: false})
+    password === ''
+      ? this.setState({isPasswordEmpty: true})
+      : this.setState({isPasswordEmpty: false})
+
+    const validUser = validUsersList.filter(
+      eachUser => eachUser.email === email && eachUser.password === password,
+    )
+    if (validUser.length !== 0) {
+      const token = Math.random().toString(36).substring(3)
+      this.onSubmitSuccess(token, validUser)
+    } else {
+      this.onSubmitFailure()
+    }
+  }
 
   renderPasswordField = () => {
-    const {password,isPasswordEmpty} = this.state
+    const {password, isPasswordEmpty} = this.state
     return (
       <>
         <label className="input-label" htmlFor="password">
@@ -80,7 +104,7 @@ class LoginForm extends Component {
   }
 
   renderEmailField = () => {
-    const {email,isEmailEmpty} = this.state
+    const {email, isEmailEmpty} = this.state
     return (
       <>
         <label className="input-label" htmlFor="email">
@@ -100,11 +124,10 @@ class LoginForm extends Component {
   }
 
   render() {
-
     const {showSubmitError, errorMsg} = this.state
     const token = JSON.parse(localStorage.getItem('token'))
-    if(token){
-        return <Redirect to="/" />
+    if (token) {
+      return <Redirect to="/" />
     }
     return (
       <div className="login-form-container">
@@ -119,7 +142,7 @@ class LoginForm extends Component {
           alt="website login"
         />
         <form className="form-container" onSubmit={this.submitForm}>
-        <img
+          <img
             src="https://res.cloudinary.com/dkr26vkii/image/upload/v1627464184/rekconsys_logo_ksujqs.jpg"
             className="login-website-logo-desktop-image"
             alt="website logo"
@@ -130,9 +153,8 @@ class LoginForm extends Component {
             Login
           </button>
           {showSubmitError && <p className="error-message">{errorMsg}</p>}
-        </form>  
+        </form>
       </div>
-     
     )
   }
 }

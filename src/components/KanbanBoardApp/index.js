@@ -1,235 +1,203 @@
-import  { Component }  from 'react';
+import {Component} from 'react'
+import {v4 as uuidv4} from 'uuid'
 import {Redirect} from 'react-router-dom'
-import { DragDropContext } from 'react-beautiful-dnd';
+import {DragDropContext} from 'react-beautiful-dnd'
 import KanbanBoard from '../KanbanBoard'
 import './index.css'
 
-
 class KanbanBoardApp extends Component {
-
-  state = {tasks: {},
-          columns: {},
-          columnOrder: [],
-          currentUserDetails:[],
-          boardName:'',
-          taskId:1}
-
-componentDidMount(){
-  this.getCurrentUserDetailsFromLocalStorage()
-  
-}
-
-
-getCurrentUserDetailsFromLocalStorage=()=>{
-  const parsedUserDetails = JSON.parse(localStorage.getItem('loggedInUserDetails'))
-    if(parsedUserDetails===null){
-      this.setState({
-          currentUser:[{id:'',email:'',password:''}]
-      })
-    }else{
-      this.setState({
-        currentUserDetails:parsedUserDetails
-      },this.getBoardDetailsFromLocalStorage)
-    }
-     
+  state = {
+    columns: [],
+    currentUserId: '',
+    boardName: '',
   }
-  
 
-getBoardDetailsFromLocalStorage=()=>{
-  const {currentUserDetails} = this.state
-  const currentUser = currentUserDetails[0].id
-  const stringifiedData = localStorage.getItem(`${currentUser}-kanbanBoards`)
-  const parsedData = JSON.parse(stringifiedData)
-  if (parsedData === null) {
-    this.setState({tasks: {},
-                  columns: {},
-                  columnOrder: [],
-                  boardName:'',
-                  taskId:1
-                }) 
-  }else{
+  getBoardIndex = id => {
+    const {columns} = this.state
+    return columns.findIndex(eachBoard => {
+      if (eachBoard.id === id) {
+        return true
+      }
+      return false
+    })
+  }
+
+  componentDidMount() {
+    this.getCurrentUserDetailsFromLocalStorage()
+  }
+
+  getCurrentUserDetailsFromLocalStorage = () => {
+    const parsedUserDetails = JSON.parse(
+      localStorage.getItem('loggedInUserDetails'),
+    )
+
+    this.setState(
+      {
+        currentUserId: parsedUserDetails,
+      },
+      this.getBoardDetailsFromLocalStorage,
+    )
+  }
+
+  getBoardDetailsFromLocalStorage = () => {
+    const {currentUserId} = this.state
+    localStorage.removeItem('loggedInUserDetails')
+    const stringifiedData = localStorage.getItem(
+      `${currentUserId}-kanbanBoards`,
+    )
+    const parsedData = JSON.parse(stringifiedData)
+    if (parsedData === null) {
+      this.setState({
+        columns: [],
+        boardName: '',
+      })
+    } else {
       this.setState(parsedData)
-    }  
-}
+    }
+  }
 
   onDragEnd = result => {
-    const { destination, source, draggableId } = result;
+    const {destination, source} = result
+    const {columns} = this.state
 
     if (!destination) {
-      return;
+      return
     }
 
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
-      return;
+      return
     }
-
-    const start = this.state.columns[source.droppableId];
-    const finish = this.state.columns[destination.droppableId];
-
+    const startBoardIndex = this.getBoardIndex(source.droppableId)
+    const finishBoardIndex = this.getBoardIndex(destination.droppableId)
+    const start = columns[startBoardIndex]
+    const finish = columns[finishBoardIndex]
     if (start === finish) {
-      const newTaskIds = Array.from(start.taskIds);
-      newTaskIds.splice(source.index, 1);
-      newTaskIds.splice(destination.index, 0, draggableId);
-
-      const newColumn = {
-        ...start,
-        taskIds: newTaskIds,
-      };
-
-      const newState = {
-        ...this.state,
-        columns: {
-          ...this.state.columns,
-          [newColumn.id]: newColumn,
-        },
-      };
-
-      this.setState(newState);
-      return;
+      const newTasks = Array.from(start.tasks)
+      newTasks.splice(source.index, 1)
+      newTasks.splice(destination.index, 0, start.tasks[source.index])
+      columns[startBoardIndex].tasks = newTasks
+      this.setState({
+        columns,
+      })
+    } else {
+      const startTasks = Array.from(start.tasks)
+      startTasks.splice(source.index, 1)
+      const finishTasks = Array.from(finish.tasks)
+      finishTasks.splice(destination.index, 0, start.tasks[source.index])
+      columns[startBoardIndex].tasks = startTasks
+      columns[finishBoardIndex].tasks = finishTasks
+      this.setState({
+        columns,
+      })
     }
+  }
 
-    const startTaskIds = Array.from(start.taskIds);
-    startTaskIds.splice(source.index, 1);
-    const newStart = {
-      ...start,
-      taskIds: startTaskIds,
-    };
-
-    const finishTaskIds = Array.from(finish.taskIds);
-    finishTaskIds.splice(destination.index, 0, draggableId);
-    const newFinish = {
-      ...finish,
-      taskIds: finishTaskIds,
-    };
-
-    const newState = {
-      ...this.state,
-      columns: {
-        ...this.state.columns,
-        [newStart.id]: newStart,
-        [newFinish.id]: newFinish,
-      },
-    };
-    this.setState(newState);
-  };
-
-  
   onDeleteBoard = id => {
-    const {columns,columnOrder} = this.state
-    const keys = Object.keys(columns);
-    const deleteBoardEl = keys.filter(eachId => eachId === id)
-    delete columns[deleteBoardEl[0]]
-    const updatedColumnOrder = columnOrder.filter(eachCol=>eachCol!==id)
+    const {columns} = this.state
+    const updatedColumn = columns.filter(eachCol => eachCol.id !== id)
     this.setState({
-     columns,
-     columnOrder:updatedColumnOrder
+      columns: updatedColumn,
     })
   }
 
   onDeleteTask = (boardId, taskId) => {
-    const {columns,tasks} = this.state
-   
-    const updateBoardTasks = columns[boardId].taskIds.filter(
-      eachTask => eachTask !== taskId,
+    const {columns} = this.state
+
+    const boardIndex = this.getBoardIndex(boardId)
+
+    const updateBoardTasks = columns[boardIndex].tasks.filter(
+      eachTask => eachTask.id !== taskId,
     )
-    columns[boardId].taskIds = updateBoardTasks
-    delete tasks[taskId]
+    columns[boardIndex].tasks = updateBoardTasks
     this.setState({
       columns,
-      tasks
     })
-    
   }
 
-
   onAddTask = (task, id) => {
-    const {columns,tasks,taskId} = this.state
-    const keys = Object.keys(columns);
-    const boardIndex = keys.findIndex(eachBoard => {
-      if (eachBoard === id) {
-        return true
-      }
-      return false
-    })
-    const colId = keys[boardIndex] 
+    const {columns} = this.state
+    const boardIndex = this.getBoardIndex(id)
+
     if (task !== '') {
       const newTask = {
-        id: `task-${taskId}`,
+        id: uuidv4(),
         content: `${task}`,
-        createdDate: new Date().toUTCString()
+        createdDate: new Date().toUTCString(),
       }
-      tasks[`task-${taskId}`] = newTask
-      columns[colId].taskIds = [...columns[colId].taskIds,`task-${taskId}`]
-      this.setState(prevState=>({
+      columns[boardIndex].tasks = [...columns[boardIndex].tasks, newTask]
+      this.setState({
         columns,
-        tasks,
-        taskId:prevState.taskId+1
-      }))
+      })
     }
   }
 
-
   onCreateBoard = () => {
-    const {boardName, columns,columnOrder} = this.state
+    const {boardName, columns} = this.state
     if (boardName !== '') {
-      const newBoardId = columnOrder.length+1
-      columns[`column-${newBoardId}`] = {
-        id: `column-${newBoardId}`,
-        title:`${boardName}`,
-        taskIds: [],
+      const newColumn = {
+        id: uuidv4(),
+        title: `${boardName}`,
+        tasks: [],
       }
-      const updatedColumnOrder = [...columnOrder,`column-${newBoardId}`]
+      const updatedColumn = [...columns, newColumn]
       console.log(columns)
       this.setState({
-        columnOrder:updatedColumnOrder,
-        columns,
+        columns: updatedColumn,
         boardName: '',
       })
     }
   }
 
   changeBoardName = event => {
-    this.setState({boardName : event.target.value})
+    this.setState({boardName: event.target.value})
   }
 
   onSaveBoard = () => {
-    const {currentUserDetails} = this.state
-    const currentUser= currentUserDetails[0].id
-    localStorage.setItem(`${currentUser}-kanbanBoards`, JSON.stringify(this.state))
+    const {currentUserId} = this.state
+    localStorage.setItem(
+      `${currentUserId}-kanbanBoards`,
+      JSON.stringify(this.state),
+    )
   }
 
-  onUpdateBoardName=(boardId,newTitle)=>{
-    const {columns} = this.state 
-    columns[boardId].title =  newTitle
+  onUpdateBoardName = (boardId, newTitle) => {
+    const {columns} = this.state
+    const boardIndex = this.getBoardIndex(boardId)
+    columns[boardIndex].title = newTitle
     this.setState({
       columns,
     })
   }
 
-  onUpdateTask = (taskId,newTask)=>{
-    if(newTask!==''){
-        const {tasks} = this.state 
-        tasks[taskId].content =  newTask
-        this.setState({
-            tasks
-        })
+  onUpdateTask = (taskId, boardId, newTask) => {
+    const {columns} = this.state
+    if (newTask !== '') {
+      const boardIndex = this.getBoardIndex(boardId)
+      const taskIndex = columns[boardIndex].tasks.findIndex(eachTask => {
+        if (eachTask.id === taskId) {
+          return true
+        } else {
+          return false
+        }
+      })
+      columns[boardIndex].tasks[taskIndex].content = newTask
+      this.setState({
+        columns,
+      })
     }
   }
 
-  onClearAllBoards=()=>{
-      this.setState({
-        tasks: {},
-        columns: {},
-        columnOrder: [],
-        boardName:'',
-        taskId:1
-      })
+  onClearAllBoards = () => {
+    this.setState({
+      columns: [],
+      boardName: '',
+    })
   }
 
-  onLogout=()=>{
+  onLogout = () => {
     const {history} = this.props
     history.replace('/login')
     localStorage.removeItem('token')
@@ -237,76 +205,82 @@ getBoardDetailsFromLocalStorage=()=>{
   }
 
   render() {
-    const {boardName,columnOrder,columns}=this.state
+    const {boardName, columns} = this.state
     const token = JSON.parse(localStorage.getItem('token'))
-    if(!token){
-        return <Redirect to="/login" />
+    if (!token) {
+      return <Redirect to="/login" />
     }
     return (
-        <div>
-             <nav className="nav-bar">  
-                  <h1 className="nav-heading">Kanban Board</h1>
-                  <button
-                  type="button"
-                  className="logout-btn all-btns"
-                  onClick={this.onLogout}
-                  >
-                  Logout
-                  </button>
-  
-            </nav>
-            <div className="board-input-container">
-                <input
-                type="text"
-                placeholder="Create Your Board"
-                className="board-input"
-                value={boardName}
-                onChange={this.changeBoardName}
+      <div>
+        <nav className="nav-bar">
+          <img
+            src="https://res.cloudinary.com/dkr26vkii/image/upload/v1627464184/rekconsys_logo_ksujqs.jpg"
+            className="nav-logo"
+            alt="website logo"
+          />
+          <button
+            type="button"
+            className="logout-btn all-btns"
+            onClick={this.onLogout}
+          >
+            Logout
+          </button>
+        </nav>
+        <div className="board-input-container">
+          <div className="input-and-btns-container">
+            <h1 className="kanban-boards-heading">Create Your Boards</h1>
+            <input
+              type="text"
+              placeholder="Create Your Board"
+              className="board-input"
+              value={boardName}
+              onChange={this.changeBoardName}
+            />
+
+            <button
+              type="button"
+              className="create-board-btn"
+              onClick={this.onCreateBoard}
+            >
+              Create Board
+            </button>
+
+            <button
+              type="button"
+              className="save-board-btn all-btns"
+              onClick={this.onSaveBoard}
+            >
+              Save
+            </button>
+
+            <button
+              type="button"
+              className="clear-board-btn all-btns"
+              onClick={this.onClearAllBoards}
+            >
+              Clear all
+            </button>
+          </div>
+
+          <DragDropContext onDragEnd={this.onDragEnd}>
+            <div className="boards-container">
+              {columns.map(eachColumn => (
+                <KanbanBoard
+                  addTask={this.onAddTask}
+                  deleteTask={this.onDeleteTask}
+                  deleteBoard={this.onDeleteBoard}
+                  updateBoardName={this.onUpdateBoardName}
+                  taskUpdate={this.onUpdateTask}
+                  key={eachColumn.id}
+                  column={eachColumn}
+                  tasks={eachColumn.tasks}
                 />
-                <button
-                type="button"
-                className="create-board-btn"
-                onClick={this.onCreateBoard}
-                >
-                Create Board
-                </button>
-                <button
-                type="button"
-                className="save-board-btn all-btns"
-                onClick={this.onSaveBoard}
-                >
-                Save
-                </button>
-                <button
-                type="button"
-                className="clear-board-btn all-btns"
-                onClick={this.onClearAllBoards}
-                >
-                Clear all
-                </button>
+              ))}
             </div>
-            <DragDropContext onDragEnd={this.onDragEnd}>
-                <div className="boards-container">
-                {columnOrder.map(columnId => {
-                    const column = columns[columnId]
-                    const tasks = column.taskIds.map(
-                    taskId => this.state.tasks[taskId])
-                    return (<KanbanBoard 
-                    addTask={this.onAddTask}
-                    deleteTask={this.onDeleteTask}
-                    deleteBoard={this.onDeleteBoard}
-                    updateBoardName={this.onUpdateBoardName}
-                    taskUpdate= {this.onUpdateTask}
-                    key={column.id}
-                    column={column} 
-                    tasks={tasks} />)
-                })}
-                </div>
-            </DragDropContext> 
+          </DragDropContext>
         </div>
-    );
+      </div>
+    )
   }
 }
 export default KanbanBoardApp
-
-
